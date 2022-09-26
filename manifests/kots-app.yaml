@@ -4,7 +4,7 @@ kind: Application
 metadata:
   name: nginx
 spec:
-  title: App Name
+  title: Istio
   icon: https://istio.io/latest/img/istio-bluelogo-nobackground-framed.svg
   statusInformers:
     - deployment/istiod
