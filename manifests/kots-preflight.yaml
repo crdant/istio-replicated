@@ -7,12 +7,12 @@ spec:
     - clusterVersion:
         outcomes:
           - fail:
-              when: "< 1.20.0"
-              message: The application requires Kubernetes 1.20.0 or later, and recommends 1.21.0 or later.
+              when: "< 1.16.0"
+              message: Istio has been tested with Kubernetes 1.16.0 or later, and supports 1.22.0 or later.
               uri: https://www.kubernetes.io
           - warn:
-              when: "< 1.21.0"
-              message: Your cluster meets the minimum version of Kubernetes, but we recommend you update to 1.21.0 or later.
+              when: "< 1.22.0"
+              message: Istio has been tested with your Kubernets version, but only 1.22.0 or later are officially supported.
               uri: https://kubernetes.io
           - pass:
               message: Your cluster meets the recommended and required versions of Kubernetes.
@@ -25,15 +25,15 @@ spec:
               message: Did not find containerd container runtime.
     - distribution:
         outcomes:
-          - fail:
+          - warn:
               when: "== docker-desktop"
-              message: The application does not support Docker Desktop clusters.
-          - fail:
+              message: The default memory configuration for Docker Destop may lead to failures running Istio
+          - warn:
               when: "== microk8s"
-              message: The application does not support MicroK8s clusters.
-          - fail:
+              message: Vendor specific installation instructions for MicroK8s have not been updated since version 1.9
+          - warn:
               when: "== minikube"
-              message: The application does not support minikube clusters.
+              message: Additional steps are required to deploy to a Minikube cluster
           - pass:
               when: "== eks"
               message: EKS is a supported distribution.
@@ -53,13 +53,11 @@ spec:
           - warn:
               message: Unable to determine the distribution of Kubernetes.
     - nodeResources:
-        checkName: Total CPU Cores
+        checkName: Memory for desktop Docker Destop
+        when: "distribution == docker-desktop"
         outcomes:
           - fail:
-              when: "sum(cpuCapacity) < 2"
-              message: The cluster must contain at least 2 cores, and should contain at least 4 cores.
-          - warn:
-              when: "sum(cpuCapacity) < 4"
-              message: The cluster should contain at least 4 cores.
+              when: "min(memoryCapacity) < 8Gi"
+              message: Docker Desktop clusters must have at least 8Gi of memorry
           - pass:
-              message: There are at least 4 cores in the cluster.
+              message: There is at least 8Gi memory avalable
