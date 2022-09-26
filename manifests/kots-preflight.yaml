@@ -52,12 +52,3 @@ spec:
               message: DigitalOcean is a supported distribution.
           - warn:
               message: Unable to determine the distribution of Kubernetes.
-    - nodeResources:
-        checkName: Memory for desktop Docker Destop
-        when: "distribution == docker-desktop"
-        outcomes:
-          - fail:
-              when: "min(memoryCapacity) < 8Gi"
-              message: Docker Desktop clusters must have at least 8Gi of memorry
-          - pass:
-              message: There is at least 8Gi memory avalable
