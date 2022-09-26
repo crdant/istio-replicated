@@ -8,5 +8,133 @@ spec:
     - clusterResources: {}
     - logs:
         selector:
-          - app=nginx
+          - app=istiod
         namespace: '{{repl Namespace }}'
+    - logs:
+        selector:
+          - app=istio-ingressgateway
+        namespace: '{{repl Namespace }}'
+  analyzers:
+    - deploymentStatus:
+        name: istiod
+        namespace: '{{repl Namespace}}'
+        outcomes:
+          - fail:
+              when: "< 1"
+              message: Istiod is not ready
+          - pass:
+              message: Istiod is ready
+    - deploymentStatus:
+        name: istio-ingressgateway
+        namespace: '{{repl Namespace}}'
+        outcomes:
+          - fail:
+              when: "< 1"
+              message: Ingres Gateway is not ready
+          - pass:
+              message: Ingres Gateway is ready
+    - customResourceDefinition:
+        customResourceDefinitionName: authorizationpolicies.networking.istio.io
+        outcomes:
+          - fail:
+              message: The Istio authorization policy custom resource definition is misssing
+          - pass:
+              message: The Istio authorization policy custom resource definition is present
+    - customResourceDefinition:
+        customResourceDefinitionName: destinationrules.networking.istio.io
+        outcomes:
+          - fail:
+              message: The Istio destination rules custom resource definition is misssing
+          - pass:
+              message: The Istio destination rules custom resource definition is present
+    - customResourceDefinition:
+        customResourceDefinitionName: envoyfilters.networking.istio.io
+        outcomes:
+          - fail:
+              message: The Istio envoy filters custom resource definition is misssing
+          - pass:
+              message: The Istio envoy filters custom resource definition is present
+    - customResourceDefinition:
+        customResourceDefinitionName: gateways.networking.istio.io
+        outcomes:
+          - fail:
+              message: The Istio gateway custom resource definition is misssing
+          - pass:
+              message: The Istio gateway custom resource definition is present
+    - customResourceDefinition:
+        customResourceDefinitionName: istiooperators.install.istio.io
+        outcomes:
+          - fail:
+              message: The Istio operators custom resource definition is misssing
+          - pass:
+              message: The Istio operators custom resource definition is present
+    - customResourceDefinition:
+        customResourceDefinitionName: peerauthentications.security.istio.io
+        outcomes:
+          - fail:
+              message: The Istio proxy config custom resource definition is misssing
+          - pass:
+              message: The Istio proxy config custom resource definition is present
+    - customResourceDefinition:
+        customResourceDefinitionName: proxyconfigs.networking.istio.io
+        outcomes:
+          - fail:
+              message: The Istio proxy config custom resource definition is misssing
+          - pass:
+              message: The Istio proxy config custom resource definition is present
+    - customResourceDefinition:
+        customResourceDefinitionName: requestauthentications.security.istio.io
+        outcomes:
+          - fail:
+              message: The Istio request authentication custom resource definition is misssing
+          - pass:
+              message: The Istio request authentication custom resource definition is present
+    - customResourceDefinition:
+        customResourceDefinitionName: serviceentries.networking.istio.io
+        outcomes:
+          - fail:
+              message: The Istio service entry custom resource definition is misssing
+          - pass:
+              message: The Istio service entry custom resource definition is present
+    - customResourceDefinition:
+        customResourceDefinitionName: sidecars.networking.istio.io
+        outcomes:
+          - fail:
+              message: The Istio sidecar custom resource definition is misssing
+          - pass:
+              message: The Istio sidecar custom resource definition is present
+    - customResourceDefinition:
+        customResourceDefinitionName: telemetries.telemetry.istio.io
+        outcomes:
+          - fail:
+              message: The Istio telemetry custom resource definition is misssing
+          - pass:
+              message: The Istio telemetry custom resource definition is present
+    - customResourceDefinition:
+        customResourceDefinitionName: virtualservices.networking.istio.io
+        outcomes:
+          - fail:
+              message: The Istio virtual service custom resource definition is misssing
+          - pass:
+              message: The Istio virtual service custom resource definition is present
+    - customResourceDefinition:
+        customResourceDefinitionName: wasmplugins.extensions.istio.io
+        outcomes:
+          - fail:
+              message: The Istio WASM plugin custom resource definition is misssing
+          - pass:
+              message: The Istio WASM plugin custom resource definition is present
+    - customResourceDefinition:
+        customResourceDefinitionName: workloadentries.networking.istio.io
+        outcomes:
+          - fail:
+              message: The Istio workload entries custom resource definition is misssing
+          - pass:
+              message: The Istio workload entries custom resource definition is present
+    - customResourceDefinition:
+        customResourceDefinitionName: workloadgroups.networking.istio.io
+        outcomes:
+          - fail:
+              message: The Istio workload groups custom resource definition is misssing
+          - pass:
+              message: The Istio workload groups custom resource definition is present
