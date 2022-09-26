@@ -5,11 +5,10 @@ metadata:
   name: nginx
 spec:
   title: App Name
-  icon: https://raw.githubusercontent.com/cncf/artwork/master/projects/kubernetes/icon/color/kubernetes-icon-color.png
+  icon: https://istio.io/latest/img/istio-bluelogo-nobackground-framed.svg
   statusInformers:
-    - deployment/nginx
-  ports:
-    - serviceName: "nginx"
-      servicePort: 80
-      localPort: 8888
-      applicationUrl: "http://nginx"
+    - deployment/istiod
+    - service/istiod
+    - deployment/istio-ingressgateway
+    - service/istio-ingressgateway
+  ports: []
